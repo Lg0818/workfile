@@ -1,0 +1,201 @@
+1.ファイル　アドレス
+
+\\E-docserv.so-net.co.jp\document\document\作業依頼案件\FY2019\2019-101976 core-secapの機能移行 ph2\既存ドキュメント
+
+2.任務
+
+モバイルポイント申し込み・解約、
+
+BBモバイルポイントは、ソフトバンクが提供するプロバイダー対応の公衆無線LANサービスです。 本サービスはSo-net接続会員向けのオプションサービスになります 
+<アカウント>
+１．新規アカウント（アカウント:dr285725@ts02 / パスワード:fwf7ptds）
+２．申請中のアカウント（なし）
+３．申請済みアカウント（なし）
+
+
+login URL :https://secapd.so-net.ne.jp/optionservice2/mpnt/mpnt_top_u.html
+1(申請中)
+登録番号　:K17010004033
+アカウント:dr285725@ts02 
+パスワード:fwf7ptds
+
+1.1 
+ auひかり登録番号
+ K17010004033 
+ ユーザーID(Web認証ID)
+ dr285725@ts02 
+ 顧客番号
+ 170100019232 
+ セルフID(契約コード)
+ a100019232 
+ 申込者氏名(漢字)
+ えいゆう　ホーム単三 
+ 申込者氏名(カナ)
+ エイユウ　ホームタンサン 
+
+
+2(申請済み)
+登録番号　:K17050002718
+アカウント:fx475354@ts02 
+パスワード:g28g4s2x
+
+
+3(NURO)
+ユーザーID
+gk784478@ts01
+システムID
+k0puhrds@ts01 
+会員電話番号 
+03-1234-1234
+
+
+
+https://secapd.so-net.ne.jp/optionservice2/mpnt/mpnt_top_u.html
+src
+1.img/header01.gif
+2.img/pixel.gif
+3.img/header03.gif
+4./cgi-bin/optionservice2/mpnt/auth_id_disp.cgi
+5./optionservice/common/common_footer5.html
+6./cgi-bin/sso/session/logout.cgi
+7./cgi-bin/optionservice2/mpnt/mpnt_login_u.cgi
+
+mpnt_login_u.cgi
+
+mpnt_cmp_u.cgi 
+
+mpnt_chk_u.cgi  
+1.新規申込・解約確認画面画面を出力する。
+2.
+
+KDDI請求への支払方法変更
+
+
+開通済み  td382424@ts04
+受付済み　bli9rbae4@ts02
+9004062687
+PCTR01-pctr01
+
+test user
+uid ksnp3987trnk@ts11 
+
+sysid c0i000vx@ts11 
+
+pwd  ksnp3987
+
+
+cp　www-pxy71g
+
+sudo -iu wwwadmin pwd SN863456L2jZY333
+
+wwwadmin に切り替える
+
+pwd
+
+; login to server: pope02.plus.so-net.ne.jp 
+connect '172.16.201.4 /2 /ssh /auth=password /user="os061985" /passwd="SN863456L2jZY333"'
+
+; login to server:core-secap11d.gyom.plus.so-net.ne.jp
+wait '$'
+sendln 'ssh os061985@core-secap11d.gyom'
+wait 'password:'
+sendln 'SN863456L2jZY333'
+wait '$'
+sendln 'sudo -iu wwwadmin'
+wait 'os061985:'
+sendln 'SN863456L2jZY333'
+wait '$'
+
+sendln 'cd /home/wwwadmin/koiwai/tool'
+
+; ./get_pw.pl [SystemID]
+
+
+
+
+
+core-secap7
+
+
+; login to server: pope02.plus.so-net.ne.jp  
+connect '172.16.201.4 /2 /ssh /auth=password /user="os061985" /passwd="SN863456L2jZY333"'
+
+; login to server:
+wait '$'
+;sendln 'ssh 10.240.253.73 -l pa050001'
+sendln 'ssh core-secap7-01t.gyom.plus.so-net.ne.jp -l os061985'
+wait 'password:'
+sendln 'SN863456L2jZY333'
+wait '$'
+sendln 'hostname'
+
+settitle  '> core-secap11d     -----------'
+end
+
+
+
+pxy71d_test
+
+; login to server: pope02.plus.so-net.ne.jp  
+connect '172.16.201.4 /2 /ssh /auth=password /user="os061985" /passwd="SN863456L2jZY333"'
+
+; login to server:
+wait '$'
+;sendln 'ssh 10.240.253.73 -l pa050001'
+sendln 'ssh www-pxy71d.plus.so-net.ne.jp -l os061985'
+wait 'password:'
+sendln 'SN863456L2jZY333'
+wait '$'
+sendln 'hostname'
+sendln 'sudo -iu wwwadmin'
+wait '[sudo] password for os061985:'
+sendln 'SN863456L2jZY333'
+settitle  '> core-secap11d     -----------'
+end
+
+
+2/25
+
+SSOアカウントを下記のように作成しましたので、展開いたします。
+氏名	社員コード	SID/GID	パスワード	
+西岡	PCTR02	9004061984	PCTR01-pctr01	
+黄	PCTR03	9004062686	PCTR01-pctr01	
+劉	PCTR04	9004062687	PCTR01-pctr01	
+張	PCTR05	9004063260	PCTR01-pctr01	
+
+
+logMeTT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Reply-to" content="info@so-net.ne.jp">
+<title>BBモバイルポイント 手続き対象ユーザーIDの確認 ｜ So-net</title>
+<style type="text/css">
+<!--
+.px10 {font-size: 10px; line-height: 14px}
+.px12 {font-size: 12px; line-height: 16px}
+.px14 {font-size: 14px; line-height: 19px}
+.px18 {font-size: 18px; line-height: 23px}
+A:link    {text-decoration: none; color: #0000FF}
+A:visited {text-decoration: none; color: #0000FF}
+A:active  {text-decoration: none; color: #000064}
+A:hover   {text-decoration: none; color: #6464FF}
+
+
+body {
+        background-color: #cce5e5;
+        margin:0;
+}
+
+.footer_position {
+        position:relative;
+        bottom:0;
+        width:100%;
+}
+-->
+</style>
+</head>
+
+<body text="#323232" vlink="#0000ff" alink="#000064" link="#0000ff">
+<!-- ↓↓グローバルヘッダー↓↓ -->
+<iframe src="//www.so-net.ne.jp/common/header/iframe/2-2_blank.html" scrolling="no" frameborder="0" style="overflow:hidden;width:100%;height:80px;border:none;"></iframe>
+<!-- ↑↑グローバルヘッダー↑↑ -->
+
+<br><br>
+<div align="center">
+<!--↓↓↓↓↓↓↓↓↓↓全体・テーブル開始↓↓↓↓↓↓↓↓↓↓-->
+<table cellspacing="0" cellpadding="0" width="500" border="0">
+<tr>
+<td colspan="3">
+<!--↓↓↓↓↓↓↓↓↓↓ヘッダー・テーブル開始↓↓↓↓↓↓↓↓↓↓-->
+<table cellspacing="0" cellpadding="0" width="100%" border="0">
+<tr>
+<td rowspan="3"><img height="50" alt="" src="img/header01.gif" width="100" border="0"></td>
+<td valign="top" width="100%" background="img/cell_bg1.gif"><img height="7" alt="" src="img/pixel.gif" width="1" border="0"></td>
+<td rowspan="3"><img height="50" alt="" src="img/header03.gif" width="7" border="0"></td>
+</tr>
+<tr>
+<td width="100%" background="img/header05.gif">
+<!--↓↓↓↓↓↓↓テキスト・テーブル開始↓↓↓↓↓↓↓-->
+<table cellspacing="0" cellpadding="0" width="100%" border="0">
+<tr>
+<td><font class="px14" face="ＭＳ Ｐゴシック, Osaka" color="#8c0000" size="4"><b>BBモバイルポイント 手続き対象ユーザーIDの確認</b></font></td>
+<td><img height="36" alt="" src="img/pixel.gif" width="1" border="0"></td>
+</tr>
+</table>
+<!--↑↑↑↑↑↑↑テキスト・テーブル終了↑↑↑↑↑↑↑--></td>
+</tr>
+<tr>
+<td valign="bottom" width="100%" background="img/cell_bg2.gif"><img height="7" alt="" src="img/pixel.gif" width="1" border="0"></td>
+</tr>
+</table>
+<!--↑↑↑↑↑↑↑↑↑↑ヘッダー・テーブル終了↑↑↑↑↑↑↑↑↑↑--></td>
+</tr>
+<tr>
+<td width="5" bgcolor="#46008c"><img height="1" alt="" src="img/pixel.gif" width="5" border="0"></td>
+<td align="center" width="492" bgcolor="#ffffff"><img height="1" alt="" src="img/pixel.gif" width="492" border="0">
+<!--↓↓↓↓↓↓↓説明文・テーブル開始↓↓↓↓↓↓↓-->
+<br>
+<table cellspacing="0" cellpadding="2" width="440" border="0">
+<tr>
+<td><font face="ＭＳ Ｐゴシック, Osaka" size="3" class="px12">BBモバイルポイントのお申し込み/解除および、ESS-ID/WEPキーの確認をするためには、
+ユーザーIDをご確認のうえ、「次へ」ボタンをクリックしてください。</font></td>
+</tr>
+</table>
+<!--↑↑↑↑↑↑↑説明文・テーブル終了↑↑↑↑↑↑↑-->
+<br>
+<!--↓↓↓↓↓↓↓フォーム・テーブル開始↓↓↓↓↓↓↓-->
+
+<table border="0" cellpadding="7" cellspacing="0" bgcolor="#e6f0ff">
+<tr>
+<td nowrap><font face="ＭＳ Ｐゴシック, Osaka" size="3" class="px12" color="#00008c"><b>ユーザーID</b></font></td>
+<td nowrap><font face="ＭＳ Ｐゴシック, Osaka" size="3" class="px12" color="#00008c"><b>：</b></font></td>
+<td nowrap>
+<iframe src="/cgi-bin/optionservice2/mpnt/auth_id_disp.cgi" allowtransparency="true" frameborder="0" style="width: 350px; height: 20px; margin: 0;">iframe非対応のブラウザではIDは表示されません。</iframe>
+</td>
+<td nowrap>&nbsp;</td>
+</tr>
+<tr>
+<td nowrap>&nbsp;</td>
+<td nowrap>&nbsp;</td>
+<td align="left"><font face="ＭＳ Ｐゴシック, Osaka" size="2">※ご本人でないか、このIDでの手続きを中断する場合は「手続きを中断する」ボタンを押してください。</font></td>
+</tr>
+<tr>
+<td nowrap>&nbsp;</td>
+<td nowrap>&nbsp;</td>
+<td align="left"><font face="ＭＳ Ｐゴシック, Osaka" size="2">※So-netのユーザーIDパスワードは、お客様ご自身で定期的に変更されることをおすすめします。<br>ユーザーIDパスワードの変更は<a href="http://www.so-net.ne.jp/support/qa/ans/s4000/s4082.html" target="_blank">こちら</a></font></td>
+</tr>
+<tr>
+<td colspan="4" align="center">
+<table border="0" cellpadding="7" cellspacing="0" bgcolor="#e6f0ff">
+<tr>
+<td>
+<form method="post" action="/cgi-bin/sso/session/logout.cgi" style="display: inline;"><input type="submit" value="　手続きを中断する　"/>&nbsp;&nbsp;</form>
+</td>
+<td>
+<form action="/cgi-bin/optionservice2/mpnt/mpnt_login_u.cgi" method="post" style="display: inline;">
+<input type="submit" name="submit" value="次へ" alt="次へ" style="padding-left: 50px;padding-right: 50px;">
+</form>
+</td>
+</tr>
+</table></td>
+</tr>
+</table>
+
+<!--↑↑↑↑↑↑↑フォーム・テーブル終了↑↑↑↑↑↑↑-->
+
+<!--↓↓↓↓↓↓↓ご注意・テーブル開始↓↓↓↓↓↓↓-->
+<table cellspacing="0" cellpadding="0" width="440" border="0">
+<tr>
+<td colspan="2"><font class="px12" face="ＭＳ Ｐゴシック, Osaka" color="#ff0000" size="3"><b>※ ご注意</b></font></td>
+</tr>
+<tr>
+<td valign="top" nowrap><font face="ＭＳ Ｐゴシック, Osaka" size="3" class="px12"><b>・</b></font></td>
+<td><font face="ＭＳ Ｐゴシック, Osaka" size="3" class="px12">本サービスはSo-net接続会員向けのオプションサービスになります。</font></td>
+</tr>
+</table>
+<!--↑↑↑↑↑↑↑ご注意・テーブル終了↑↑↑↑↑↑↑-->
+<br><br>
+</td>
+<td width="3" bgcolor="#6c75a8"><img height="1" alt="" src="img/pixel.gif" width="3" border="0"></td>
+</tr>
+<tr>
+<td bgcolor="#46008c" colspan="3"><img height="5" alt="" src="img/pixel.gif" width="500" border="0"></td>
+</tr>
+</table>
+<br>
+<!--↑↑↑↑↑↑↑↑↑↑全体・テーブル終了↑↑↑↑↑↑↑↑↑↑-->
+</div>
+
+<!-- ↓↓グローバルフッター↓↓ -->
+<div class="footer_position">
+<iframe src="/optionservice/common/common_footer5.html" frameborder="0" scrolling="no" width="100%" height="130">この部分はインラインフレームを使用しています。</iframe>
+</div>
+<!-- ↑↑グローバルフッター↑↑ -->
+
+<!-- SiteCatalyst code version: H.14.
+Copyright 1997-2008 Omniture, Inc. More info available at
+http://www.omniture.com -->
+<script language="JavaScript" src="//www.so-net.ne.jp/omn-js/s_code.js"></script>
+<script language="JavaScript"><!--
+SmR.channel=location.host;
+var s_code=SmR.t();if(s_code)document.write(s_code)//--></script>
+<!-- End SiteCatalyst code version: H.14. -->

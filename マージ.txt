@@ -1,0 +1,17 @@
+マージ　メモ
+
+/so-net/cgi-bin/perllib/nfamilypack/NFPCheck.pm
+
+490　令和なし
+
+/so-net/cgi-bin/perllib/nfamilypack/NFamilyPackAdd.pm
+
+95　令和なし
+
+1818　eq'4'なし
+
+1862　令和なし
+
+/so-net/cgi-bin/perllib/nfamilypack/AdslCourseChangeFunc.pl
+
+681　令和なし
