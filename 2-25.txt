@@ -1,0 +1,507 @@
+
+
+2/25
+
+SSOアカウントを下記のように作成しましたので、展開いたします。
+氏名	社員コード	SID/GID	パスワード	
+西岡	PCTR02	9004061984	PCTR01-pctr01	
+黄	PCTR03	9004062686	PCTR01-pctr01	
+劉	PCTR04	9004062687	PCTR01-pctr01	
+
+
+
+<2> 2/25
+　・疎通確認作業：　開発環境とテスト環境の<KDDI請求への支払方法変更>　
+
+    完成
+
+ ・E2Eテストで単機能テスト方法の習得
+
+　→コンフレとBitBucketにて確認
+
+
+
+　・E2Eテストケースに足りないケースの抽出と整理
+
+
+
+バッティング共通モジュール　比較
+
+
+サーバーにログインし、
+
+dev
+
+現行サーバー
+core-secap11d.gyom.plus.so-net.ne.jp
+
+
+移行サーバー
+core-secap7-01d.gyom.plus.so-net.ne.jp
+
+比較url：
+
+/so-net/cgi-bin/perllib/nfamilypack/IDAddAbltn.pm
+
+１（１６５行）
+元号西暦変換関数
+
+現行サーバー
+elsif($era eq '2'){ # 昭和
+            if($year >=  1 && $year <= 64){
+                return 1925 + $year;
+            }
+        }elsif($era eq '3'){ # 平成
+            if($year >=  1 && $year <= 31){
+                return 1988 + $year;
+            }
+        }elsif($era eq '4'){ # 令和
+            if($year >=  1){
+                return 2018 + $year;
+            }
+        }
+
+移行サーバー
+elsif($era eq '2'){ # 昭和
+            if($year >=  1 && $year <= 64){
+                return 1925 + $year;
+            }
+        }elsif($era eq '3'){ # 平成
+            if($year >=  1){
+                return 1988 + $year;
+            }
+        }
+
+２（１３２５行）
+和暦を西暦に変換して返します
+
+現行サーバー
+elsif( $inDate < 19890108 ) {
+            #---- 昭和：1989年01月07日まで ----
+            $eraName = '昭和';
+            $eraYear = $inYear - 1925;
+        } elsif( $inDate < 20190501 ) {
+            #--- 平成：2019年04月30日まで ----
+            $eraName = '平成';
+            $eraYear = $inYear - 1988;
+        } else {
+            #--- 令和：今日に至る ----
+            $eraName = '令和';
+            $eraYear = $inYear - 2018;
+        }
+
+移行サーバー
+elsif( $inDate < 19890108 ) {
+            #---- 昭和：1989年01月07日まで ----
+            $eraName = '昭和';
+            $eraYear = $inYear - 1925;
+        } else {
+            #--- 平成：今日に至る ----
+            $eraName = '平成';
+            $eraYear = $inYear - 1988;
+        }
+
+
+
+
+（以下の関数モジュールは違いがあるが、結果は同じで、作法違うだけ、マージ不要です）
+
+
+会員区分・会員区分名称取得（２１９行）　
+現行サーバー
+    sub exec_nfp_fpack_info3{
+        my($err_cd)       = '';
+
+        my($dbserver)           = 'MASTER';
+        my($httpsts)            = '';
+        my($dbsts)              = '';
+        my(@sqlparams)          = ();
+        my($conn)               = Sonet::DB::DBAccessCGI->new($dbserver);
+        unless ($conn) {
+            $obj->setError('', 20010);
+            $obj->{'Log'}->logPrintf("%s L%d: execSQL失敗\n",
+        $sql .= "?, "                                   ;
+
+        #----- SQL文実行 -----
+        ($sts, $httpsts, $dbsts, @data) = $conn->executeQuery($sql, @sqlparams);
+
+        if($sts != 0 || @data < 1){
+            $obj->setError('', 20010);
+            $obj->{'Log'}->logPrintf("%s L%d: execSQL失敗 SQL[%s]\n",
+                                      $pm_name, __LINE__, $sql
+                                    );
+ 
+        #----- 取得データ設定 -----
+        $$usr_kbn      = $data[0][0];                   # 会員区分
+        $$usr_kbn_name = $data[0][1];                   # 会員区分名称
+
+        return $obj->getStatusSuccess;
+    }
+
+
+移行サーバー
+    sub exec_nfp_fpack_info3{
+        my($obj, $fpack_sts, $usr_id, $usr_kbn, $usr_kbn_name) = @_;
+        my($sql)          = '';
+        my(@data)         = ();
+        my($sts)          = '';
+        my($err_cd)       = '';
+        my(%sqlparams)    = ();
+        my($request_url)  = '';
+        $sql .= "?, "                                   ;   #  2 ユーザID
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?"                                     ;
+
+        $request_url = 'api-familypack/rest/info/select';
+        $sqlparams{key_usr_id          }   = $usr_id    ;  #  2 ユーザID
+        $sqlparams{in_proc             }   = '00'       ;  #  3 呼出し元(00:CGI)
+        $sqlparams{wk_usr_kbn_name     }   = ''         ;
+        $sqlparams{b27_temp_usr_kbn    }   = ''         ;
+        $sqlparams{wk_temp_usr_kbn_name}   = ''         ;
+        $sqlparams{key_usr_kbn         }   = ''         ;
+        $sqlparams{key_usr_kbn_name    }   = ''         ;
+        $sqlparams{wk_err_cd           }   = ''         ;
+
+        #----- SQL文実行 -----
+        ($sts,@data) = CoreInternalAppCall->callApi($request_url, \%sqlparams);
+
+        if($sts != 0 || @data < 1){
+            $obj->setError('', 20010);
+            $obj->{'Log'}->logPrintf("%s L%d: execSQL失敗 SQL[%s]\n",
+                                      $pm_name, __LINE__, $sql
+                                    );
+
+        #----- 取得データの格納 -----
+        $err_cd       = $data[0][8];                    # エラーコード
+
+
+#    ストアド実行処理
+    # 　　　(o) 会員区分
+    # 　　　(o) 会員区分名称
+    sub exec_nfp_fpack_info3{
+        my($obj, $fpack_sts, $usr_id, $usr_kbn, $usr_kbn_name) = @_;
+        my($sql)          = '';
+        my(@data)         = ();
+        my($sts)          = '';
+        my($err_cd)       = '';
+        my(%sqlparams)    = ();
+        my($request_url)  = '';
+        $sql .= "?, "                                   ;   #  2 ユーザID
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?, "                                   ;
+        $sql .= "?"                                     ;
+
+        $request_url = 'api-familypack/rest/info/select';
+        $sqlparams{key_usr_id          }   = $usr_id    ;  #  2 ユーザID
+        $sqlparams{in_proc             }   = '00'       ;  #  3 呼出し元(00:CGI)
+        $sqlparams{wk_usr_kbn_name     }   = ''         ;
+        $sqlparams{b27_temp_usr_kbn    }   = ''         ;
+        $sqlparams{wk_temp_usr_kbn_name}   = ''         ;
+        $sqlparams{key_usr_kbn         }   = ''         ;
+        $sqlparams{key_usr_kbn_name    }   = ''         ;
+        $sqlparams{wk_err_cd           }   = ''         ;
+
+        #----- SQL文実行 -----
+        ($sts,@data) = CoreInternalAppCall->callApi($request_url, \%sqlparams);
+
+        if($sts != 0 || @data < 1){
+            $obj->setError('', 20010);
+            $obj->{'Log'}->logPrintf("%s L%d: execSQL失敗 SQL[%s]\n",
+                                      $pm_name, __LINE__, $sql
+                                    );
+        $sqlparams{key_srvc_no         }   = ''         ;
+        $sqlparams{key_usr_kbn         }   = ''         ;
+        $sqlparams{key_usr_kbn_name    }   = ''         ;
+        $sqlparams{wk_err_cd           }   = ''         ;
+
+        #----- SQL文実行 -----
+        ($sts,@data) = CoreInternalAppCall->callApi($request_url, \%sqlparams);
+
+        if($sts != 0 || @data < 1){
+            $obj->setError('', 20010);
+            $obj->{'Log'}->logPrintf("%s L%d: execSQL失敗 SQL[%s]\n",
+                                      $pm_name, __LINE__, $sql
+                                    );
+
+        #----- 取得データ設定 -----
+        ($$usr_kbn      = $data[0][0]) =~ s/ //;       # 会員区分
+        ($$usr_kbn_name = $data[0][1]) =~ s/ +$//;     # 会員区分名称
+
+        return $obj->getStatusSuccess;
+    }
+
+選択可能コース取得（２７９行）
+
+ファミリー会員登録（３３０行）
+
+VoIP,FTTH,ADSL 無線LAN チェック（４９２行）
+
+4thMEDIAコース変更時解約チェック（５４２行）
+
+bitWarp(EM)契約解除料チェック処理（exec spem_warn_dsp_chk）（５５９行）
+
+Venus注意事項表示制御（exec spuqwx_warn_dsp_chk）（７２４行）
+
+コース取得（８６４）
+    
+選択可能コース取得（９１１）
+
+子会員廃止申請（９７１）
+
+子会員全廃止申請(Fパック対象者)（1101）
+
+長割適用チェック（１２４９）
+
+   sub exec_sp_chk_now_free_course {
+        my($obj, $usr_id, $chk_ans, $now_usr_kbn, $now_srvc_no) = @_;
+        my($sts, $sql) = '';
+        my(@data)      = ();
+
+        $sql = sprintf("exec sp_chk_now_free_course '%s', '%s', '', '', ''",
+                       $usr_id,                        # ユーザID
+                       'CGI');                         # 実行区分
+
+        #--- ストアド実行 ---
+        ($sts,@data) = $obj->{'FJDBAccess'}->execSQL($sql);
+        if($sts != $obj->getStatusSuccess || @data <= 0){
+            $obj->setError('', 20010);
+            $obj->{'Log'}->logPrintf("%s L%d: execSQL失敗 SQL[%s]\n",
+                                     $pm_name, __LINE__, $sql);
+            return $obj->getStatusError;
+        }
+        #--- 実行結果判定 ---
+        $$chk_ans = $data[0];
+        if ($$chk_ans ne '0' && $$chk_ans ne '1') {
+            $obj->setError('', 20009);
+            $obj->{'Log'}->logPrintf("%s L%d: sp_chk_now_free_course ストアド実>行エラー chk_ans[%s] SQL[%s]\n"
+,
+                                                 $pm_name, __LINE__, $$chk_ans, $sql);
+            return $obj->getStatusError;
+        }
+
+        #--- 出力引数設定 ---
+        $$now_usr_kbn = $data[1];
+        $$now_srvc_no = $data[2];
+
+        return $obj->getStatusSuccess;
+    }
+    
+        
+
+
+    sub exec_sp_chk_now_free_course {
+        my($obj, $usr_id, $chk_ans, $now_usr_kbn, $now_srvc_no) = @_;
+        my($sts, $sql, $request_url) = '';
+        my(@data)      = ();
+        my(%request_param) = ();
+
+        $sql = sprintf("exec sp_chk_now_free_course '%s', '%s', '', '', ''",
+        $request_url = 'api-familypack/rest/free/couese/check';
+        $request_param{chk_ans}         = '';
+        $request_param{now_usr_kbn}     = '';
+        $request_param{now_srvc_no}     = '';
+
+        # ストアドの実行
+        if($sts != $obj->getStatusSuccess || @data <= 0){
+            $obj->setError('', 20010);
+            $obj->{'Log'}->logPrintf("%s L%d: execSQL失敗 SQL[%s]\n",
+                                     $pm_name, __LINE__, $sql);
+            return $obj->getStatusError;
+        }
+
+        #--- 実行結果判定 ---
+        $$chk_ans = $data[0][0];
+        if ($$chk_ans ne '0' && $$chk_ans ne '1') {
+            $obj->setError('', 20009);
+            $obj->{'Log'}->logPrintf("%s L%d: sp_chk_now_free_course ストアド実>行エラー chk_ans[%s] SQL[%s]\n"
+,
+                                                 $pm_name, __LINE__, $$chk_ans, $sql);
+            return $obj->getStatusError;
+        }
+
+        #--- 出力引数設定 ---
+        $$now_usr_kbn = $data[0][1];
+        $$now_srvc_no = $data[0][2];
+
+        return $obj->getStatusSuccess;
+    }
+
+
+
+/so-net/cgi-bin/perllib/FJDBAccess.pm
+
+一、useの違い
+
+現行サーバー
+package FJDBAccess;
+use lib '/so-net/cgi-bin/perllib/';
+use Unicode::Japanese;
+use Socket;
+use FJBase;
+
+移行サーバー
+package FJDBAccess;
+use lib '/so-net/cgi-bin/perllib/';
+use Unicode::Japanese;
+use Socket;
+use FJBase;
+use lib '/so-net/env/';
+use gyom_access;
+
+
+二、@ISA    = ('FJBase');変数の違い
+
+現行サーバー
+@ISA    = ('FJBase');
+{
+    #開発、テスト、本番で共通化(開発、テスト環境では/etc/hostsに設定してある)
+    my %_HOST   = (
+               MASTER_USER   => ['MASTER',   'core-gymap.gyom.plus.so-net.ne.jp', '10080'],
+               MASTER_OLSU   => ['MASTER',   'core-gymap.gyom.plus.so-net.ne.jp', '10080'],
+               MASTER_GYOM   => ['MASTER',   'core-gymap.gyom.plus.so-net.ne.jp', '10080'],
+               MAYSERV_USER  => ['MAYSERV',  'core-gymap.gyom.plus.so-net.ne.jp', '10080'],
+               MAYSERV_GYOM  => ['MAYSERV',  'core-gymap.gyom.plus.so-net.ne.jp', '10080']
+              );
+
+移行サーバー
+@ISA    = ('FJBase');
+{
+    my %_HOST   = (
+               MASTER_USER   => ['MASTER',   $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               MASTER_OLSU   => ['MASTER',   $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               MASTER_GYOM   => ['MASTER',   $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               POINT_USER    => ['POINT',    $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               POINT_OLSU    => ['POINT',    $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               POINT_GYOM    => ['POINT',    $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE1_USER  => ['SYBASE1',  $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE1_GYOM  => ['SYBASE1',  $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE11_USER => ['SYBASE11', $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE11_GYOM => ['SYBASE11', $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE12_USER => ['SYBASE12', $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE12_GYOM => ['SYBASE12', $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               MAYSERV_USER  => ['MAYSERV',  $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               MAYSERV_GYOM  => ['MAYSERV',  $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               DSSDB         => ['DSSDB',    $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+              );
+
+
+以下の関数は現行サーバーと移行サーバーで同じです
+
+
+1 コンストラクタ
+
+2 パラメータHTTPエンコード関数
+
+3 TCP/IP接続関数
+
+4 サーバ名設定関数
+
+5 サーバ名取得関数
+
+6 データベース名設定関数
+
+7 データベース名取得関数
+
+8 SQL設定関数
+
+9 SQL取得関数
+
+10 URL設定関数
+
+11 URL取得関数
+
+12 SQL実行関数
+
+2-26
+
+ntt
+dev 完了
+/so-net/docs/ntt_option/
+
+/so-net/cgi-bin/ntt_option/
+
+test
+
+/ip/docs/ntt_option/
+
+/ip/cgi-bin/ntt_option/
+
+マージ　メモ
+
+/so-net/cgi-bin/perllib/nfamilypack/NFPCheck.pm
+
+490　令和なし
+
+/so-net/cgi-bin/perllib/nfamilypack/NFamilyPackAdd.pm
+
+95　令和なし
+
+1818　eq'4'なし
+
+1862　令和なし
+
+/so-net/cgi-bin/perllib/nfamilypack/AdslCourseChangeFunc.pl
+
+681　令和なし
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
