@@ -1,0 +1,266 @@
+clearat mrc_auth.cgi 
+#!/plus/perl516/bin/perl
+##############################################################################
+# (C)2013 So-net Entertainment Corporation. All rights reserved.
+#
+# Title       : mrc_auth.cgi
+#
+# Description : Mercury ユーザWeb認証処理
+#
+# Authors     : Takayuki.funada@so-net.co.jp
+#
+# History     : 2013/03/01 2012-100066 Mercuryシステム開発 (ISP) First Version
+#             : 2013/06/05 2013-100374 NUROユーザーWebメンテナンス対策 Genki.Kenpe@no-net.co.jp
+#             : 2013/07/18 2013-000155 NURO光 CGIログ監視追加 Kengo.Hayashi@so-net.co.jp
+#
+##############################################################################
+use lib '/so-net/cgi-bin/perllib/5.16.3';
+use lib '/so-net/cgi-bin/lib/sso';
+use strict;
+use warnings;
+use Sonet::CGI::HtmlTemplate;
+use Sonet::CGI::Util::FormParameters;
+use Sonet::Util::CSV;
+
+use Sonet::DB::DBAccessPHP;
+use Sonet::DB::SybaseUtil qw(quote_utf8);
+use Sonet::DB::SybaseUtil2 qw(escape_utf8);
+
+use Log::Log4perl;
+use Data::Dumper;
+use sso_info;
+use POSIX 'strftime';
+
+require '/so-net/cgi-bin/mrc/user_web/messenger.pl';
+require '/so-net/cgi-bin/mrc/user_web/etc/mrc_common.pl';
+
+
+##############################################################################
+# ログ出力設定の読込 (必須)
+##############################################################################
+Log::Log4perl->init('./etc/log4perl.conf');
+
+our $logger     = Log::Log4perl->get_logger(__PACKAGE__);
+our ($usr_id, $token_id);
+our %conf_ary = ();
+my  %options = ();
+
+##############################################################################
+# リクエスト処理
+##############################################################################
+my ($screen_name, @error_codes) =
+    &ProccessMain(\%options);
+
+##############################################################################
+# エラー処理
+##############################################################################
+if (scalar(@error_codes) > 0) {
+    foreach my $error_code (@error_codes) {
+        if ($error_code eq '9999') {
+            $logger->error('9999	-	システムエラー');
+        }
+    }
+    my $error_list = &CreateErrorList( @error_codes);
+    if (ref($error_list) ne 'ARRAY') {
+        $logger->error('9999	-	エラーメッセージLISTなし'.$error_list);
+        $screen_name = 'error';
+        $options{error_list} = [ { reason => 'Fatal error' } ];
+    }
+    else {
+        $options{error_list} = $error_list;
+    }
+    $options{has_error}  = '1';
+}
+
+##############################################################################
+# HTML 出力関数のエラー読込と出力
+##############################################################################
+if ($screen_name eq 'error'){
+  &OutputErrorHtml( %options);
+}
+
+##############################################################################
+# リダイレクト処理
+##############################################################################
+# リダイレクト(TokenSetter)
+# パラメータをURLエンコードする
+my $location_param = &getUrlEncode($mrc_common::USER_WEB_URL);
+
+# リダイレクト実行
+print "Location: $mrc_common::REQ_URL?goto=$location_param&token_id=$token_id\n\n";
+
+exit 0;
+
+###############################################################################
+# ユーザweb認証処理
+###############################################################################
+sub ProccessMain {
+    my ($options) = @_;
+
+    ##########################################################################
+    # SSO
+    ##########################################################################
+    my $sso_info = sso_info->new();
+    if($sso_info->{message} ne 'OK'){
+        $logger->error($sso_info->{message});
+        return ('error', '9102');
+    }
+    $usr_id = $sso_info->{usr_id};
+
+    $logger->info(sprintf("usr_id:[%s]", $usr_id));
+
+    ##########################################################################
+    # 各種処理
+    ##########################################################################
+    my $screen_name;
+
+    $screen_name  = '';
+
+    my ($erc_error_code, $DB_err_cd);
+    
+    ##############################################################################
+    # Mercuryデータ特定処理
+    ##############################################################################
+    my ($usr_error_code, @usr_data) = &execStGetStateKey();
+
+    # 件数なし
+    if ($usr_error_code == -3) {
+        $logger->warn('1101	-	該当なし: '.$DB_err_cd);
+        return ('error', '1101');
+    }
+
+    # DB接続系エラー
+    if ($usr_error_code < 0) {
+        $logger->error('9103	-	DB接続系エラー: '.$usr_error_code);
+        return ('error', '9103');
+    }
+
+    # Mercuryデータ特定処理取得結果
+    my $DB_mrc_regist_no   = $usr_data[0];  # ISP契約番号
+    my $DB_reg_sts         = $usr_data[1];  # ステータス
+    my $DB_mrc_user_id     = $usr_data[2];  # 顧客ID
+
+    # ステータスが20以下の場合
+    if ($DB_reg_sts eq '11' || $DB_reg_sts eq '20') {
+        $logger->warn('1102	-	ステータスエラー: '.$DB_reg_sts);
+        return ('error', '1102');
+    }
+
+    ##############################################################################
+    # Mercury認証トークン取得処理
+    ##############################################################################
+    my $response_code = '000';
+    ($response_code, $token_id) = &UserWebAuth($DB_mrc_user_id);
+
+    # レスポンスコードがE01の場合
+    if ($response_code eq 'E01') {
+        $logger->error('9104	-	ユーザweb認証トークンAPIシステム内部エラー: '.$response_code);
+        return ('error', '9104');
+    }
+
+    # メンテナンス中の場合
+    if ($response_code eq '998') {
+        $logger->warn('9106	-	メンテナンス中: '.$response_code);
+        return ('error', '9106');
+    }
+
+    # レスポンスコードが000でなくE01以外の場合
+    if ($response_code ne '000' && $response_code ne 'E01') {
+        $logger->error('9105	-	ユーザweb認証処理エラー: '.$response_code);
+        return ('error', '9105');
+    }
+    return $screen_name;
+}
+
+###############################################################################
+# ストアド実行：Mercuryデータ特定処理
+###############################################################################
+sub execStGetStateKey {
+
+    # 自動引用符付加 (quote_utf8) を指定して、DB 接続オブジェクトを生成
+    my $conn = Sonet::DB::DBAccessPHP->new(quote => \&quote_utf8);
+    return -1 unless ($conn);
+
+    # ストアドの実行
+    my $result = $conn->executeProcedure(
+        'spmrc_get_state_key',
+        $usr_id
+    );
+
+    # ストアド実行エラー
+    return -2 unless ($result->{'status'} == 0);
+    
+    #データなし
+    if ( $result->{'data'}->[0]->[0] eq '') {
+      return -3;
+    }
+
+    return (0, @{$result->{'data'}->[0]});
+}
+
+###############################################################################
+# 画面表示(エラー)
+###############################################################################
+sub OutputErrorHtml {
+    my (%options) = @_;
+    my $template;
+    my $filename = 'mrc_error.html';
+
+    my $req = Sonet::CGI::Util::FormParameters->new(encoding => 'utf8');
+    $template = Sonet::CGI::HtmlTemplate->new(
+          associate => $req,
+          filename  => $filename,
+          path      => [ './template/' ]);
+
+    map { $template->param($_, $options{$_}) } keys(%options);
+
+    # フィルターをかける
+    $template->fill(fobject => $req);
+
+    # print extra headers if you want
+
+    # print Content-Length, Content-Typt header and HTML content
+    # 画面を出力する
+    $template->output();
+}
+
+###############################################################################
+# エラーメッセージ読込
+###############################################################################
+sub CreateErrorList {
+    my (@error_codes) = @_;
+
+    my $message_path = '/so-net/cgi-bin/mrc/user_web/etc/message.csv';
+    my $messages = Sonet::Util::CSV->new(
+        filename => $message_path,
+        indices  => [ 1 ]);
+
+    my @error_list;
+    my $row;
+    foreach my $error_code (@error_codes) {
+        $row = $messages->get($error_code);
+        if (ref($row) ne 'ARRAY') {
+            return $error_code;
+        }
+        push(@error_list, { reason => $row->[1] });
+    }
+
+    return \@error_list;
+}
+
+###############################################################################
+# エンコードしたURL取得
+# 引数  ：$param ; パラメータ
+# 戻り値：エンコードしたURL
+###############################################################################
+sub getUrlEncode{
+  my($param)  = @_;
+
+  $param =~ s/([^\w])/'%'.unpack('H2',$1)/eg;
+  $param =~ s/\s/+/g;
+
+  return $param;
+}
+
+1;
+-sh-4.1$ 

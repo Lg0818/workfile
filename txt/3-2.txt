@@ -1,0 +1,113 @@
+今日でやるべきもの
+
+1.E2Eテスト
+
+　１．１　modifyCGI
+
+　　kddi_charge_info.html
+
+　１．２　テストケースを追加する
+
+kddi_charge_modify_input.cgi
+kddi_charge_modify_chk.cgi
+kddi_charge_modify_cmp.cgi
+
+done
+
+2.    ６機能の不具合対応
+
+機能SSO確認   画面確認
+
+dev
+
+1 done　　　　　done
+
+2 done          done
+
+3 done          done
+
+4 done          done
+
+5 done          done
+
+6 done          done
+
+test
+
+1 done          done
+
+2 done          done
+
+3 done          done
+
+4 done          done
+
+5 done          done
+
+6 done          done
+
+
+E2E機能検査　手動確認
+
+１：KDDI　
+　　SSOログイン失敗
+
+２：MobilePoint
+    NGが、中身はOK
+
+３：NTT
+　　２と同じ
+
+４：認証・件数課金利用状況
+　　２と同じ
+
+５：入会証再発行　　OKです
+
+手動テストケース
+
+
+wg337557@nmt
+
+
+K19120326057
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
