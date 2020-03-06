@@ -1,0 +1,251 @@
+select
+2>   ka09.kddi_regist_no,
+3>   ka09.add_ymd,
+4>   ka01.reg_sts,
+5>   ka09.reg_sts
+6> from kddia09 ka09,
+7>      kddia01 ka01
+8> where ka09.reg_sts='20'
+9>   and ka01.kddi_regist_no = ka09.kddi_regist_no
+10>   and ka01.reg_sts='50'
+11> go
+ kddi_regist_no add_ymd                         reg_sts reg_sts 
+ -------------- ------------------------------- ------- ------- 
+ K10030000112               Apr 12 2010  6:26PM 50      20      
+ K09120001685               May 13 2010  9:56PM 50      20      
+ K10040000629               Apr 14 2010  6:38PM 50      20      
+ K10040001165               Apr 22 2010  1:46PM 50      20      
+ K10040001334               Apr 21 2010  3:40PM 50      20      
+ K10040001389               Apr 27 2010  3:28PM 50      20      
+ K10040001423               Apr 21 2010 10:13PM 50      20      
+ K10040001691               Apr 22 2010  7:08PM 50      20      
+ K10040003109               Apr 27 2010  7:06PM 50      20      
+ K10040004064               Apr 30 2010  3:34PM 50      20      
+ K10050000334               May  7 2010  5:54PM 50      20      
+ K10090000189               Sep  7 2010  7:20PM 50      20      
+ K10080001465               Sep 30 2010  4:14PM 50      20      
+ K10090004069               Sep 30 2010 10:14AM 50      20      
+ K10090004096               Sep 30 2010  3:40PM 50      20      
+ K10100001728               Oct 28 2010  8:12AM 50      20      
+ K10100001737               Oct 28 2010  8:24AM 50      20      
+ K10120003234               Sep 15 2015 11:40AM 50      20      
+ K11059917708               May 26 2011  2:30PM 50      20      
+ K11060003124               Jun 27 2011  4:20PM 50      20      
+ K11060003133               Jun 27 2011  4:25PM 50      20      
+ K11060003259               Jun 27 2011 10:29PM 50      20      
+ K11060003268               Jun 27 2011 11:02PM 50      20      
+ K11060003277               Jun 27 2011 11:07PM 50      20      
+ K11060003286               Jun 27 2011 11:12PM 50      20      
+ K11060000350               Jun  7 2011  7:27PM 50      20      
+ K11060000378               Jun  8 2011 10:41PM 50      20      
+ K11060000476               Jun  9 2011 11:42AM 50      20      
+ K11060000485               Jun  9 2011  7:55PM 50      20      
+ K11060000494               Jun  9 2011  8:29PM 50      20      
+ K11070000331               Jul  3 2011  6:58PM 50      20      
+ K11080000296               Aug  9 2011  4:12PM 50      20      
+ K11080000312               Aug 10 2011  5:17PM 50      20      
+ K11080000321               Aug 10 2011  5:31PM 50      20      
+ K11080000330               Aug 10 2011  5:45PM 50      20      
+ K11080000349               Aug 10 2011  5:48PM 50      20      
+ K11080000358               Aug 10 2011  7:06PM 50      20      
+ K11080000367               Aug 10 2011  7:17PM 50      20      
+ K12100000184               Oct 10 2012  3:09PM 50      20      
+ K12120000011               Dec  5 2012  4:07PM 50      20      
+ K14010000389               Jan 31 2014  2:04PM 50      20      
+ K14090000087               Sep 26 2014  8:32PM 50      20      
+ K13050000028               May 10 2013  6:44PM 50      20      
+ K15060002611               Jun 22 2015  2:01AM 50      20      
+
+(44 rows affected)
+1> select reg_sts,kddi_regist_no from kddia09 where kddi_regist_no='K18020022645'
+2> go
+ reg_sts kddi_regist_no 
+ ------- -------------- 
+
+(0 rows affected)
+1> select reg_sts,kddi_regist_no from kddia09 where kddi_regist_no='K10030000112'
+2> go
+ reg_sts kddi_regist_no 
+ ------- -------------- 
+ 20      K10030000112   
+
+(1 row affected)
+1> begin tran
+2> go
+1> update kddia09 set reg_sts='94' where kddi_regist_no='K10030000112'
+2> go
+(1 row affected)
+1> select reg_sts,kddi_regist_no from kddia09 where kddi_regist_no='K10030000112'
+2> go
+ reg_sts kddi_regist_no 
+ ------- -------------- 
+ 94      K10030000112   
+
+(1 row affected)
+1> select * from kddia09 where kddi_regist_no='K10030000112'
+2> go
+ add_ymd                         upd_ymd                         add_empno upd_empno upd_cnt kddi_regist_no appl_ymd                        appl_kbn out_ymd                         modify_ymd                      chg_pymt_ymd                    reg_sts reg_sts_upd_ymd                 reg_sts_upd_person reg_sts_upd_reason old_reg_sts old_reg_sts_upd_ymd             old_reg_sts_upd_person old_reg_sts_upd_reason result_kbn claim_kbn first_claim_ym err_cd accpt_ymd claim_same_flg claim_namej                                                  claim_namek                                                  claim_zip_cd claim_addr1 claim_addr2                                                  claim_addr3                                                  claim_addr4                                                                                          claim_telno          claim_paper_flg claim_kind claim_origin au_telno             au_brth_ymd myline_acnt myline_telno         auone_contract_cd
+	 auone_email_appl_flg au_seal_flg myline_seal_flg auone_seal_flg pymt_seal_flg usr_rule_flg usr_seal_flg auone_mail_addr                                                                                                                   pymt_usr_namek                                                                                                           au_usr_namek                                                                                                             myline_usr_namek                                                                                                         auone_usr_namek                                                                                                          claim_agree_namek                                            claim_agree_seal_flg 
+ ------------------------------- ------------------------------- --------- --------- ------- -------------- ------------------------------- -------- ------------------------------- ------------------------------- ------------------------------- ------- ------------------------------- ------------------ ------------------ ----------- ------------------------------- ---------------------- ---------------------- ---------- --------- -------------- ------ --------- -------------- ------------------------------------------------------------ ------------------------------------------------------------ ------------ ----------- ------------------------------------------------------------ ------------------------------------------------------------ ---------------------------------------------------------------------------------------------------- -------------------- --------------- ---------- ------------ -------------------- ----------- ----------- -------------------- -----------------
+	 -------------------- ----------- --------------- -------------- ------------- ------------ ------------ --------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------ -------------------- 
+             Apr 12 2010  6:26PM             Apr 19 2010 10:14PM GYOM      GYOM           10 K10030000112               Apr 12 2010  6:26PM 1                    Apr 15 2010  2:46PM             Apr 12 2010  6:26PM             Jan  1 1900 12:00AM 94                  Apr 15 2010  2:46PM KDBT41             00                 11                      Apr 12 2010  6:26PM GYOM                   00                                                                          0                                                                                                                                                                                                                                                                                                                                                                                                                     0               1                                                                                                          
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+(1 row affected)
+1> select reg_sts,kddi_regist_no,usr_id from kddia09 where kddi_regist_no='K10030000112'
+2> go
+Msg 207, Level 16, State 4:
+Server 'MASTER1', Line 1:
+Invalid column name 'usr_id'.
+1> select reg_sts,kddi_regist_no,auth_id from kddia09 where kddi_regist_no='K10030000112'
+2> go
+Msg 207, Level 16, State 4:
+Server 'MASTER1', Line 1:
+Invalid column name 'auth_id'.
+1> select reg_sts,kddi_regist_no from kddia09 where kddi_regist_no='K10030000112'
+2> go
+ reg_sts kddi_regist_no 
+ ------- -------------- 
+ 94      K10030000112   
+
+(1 row affected)
+1> select all from kddia09 where kddi_regist_no='K10030000112'
+2> go
+Msg 156, Level 15, State 2:
+Server 'MASTER1', Line 1:
+Incorrect syntax near the keyword 'from'.
+1> select
+2>   ka09.kddi_regist_no,
+3>   ka09.add_ymd,
+4>   ka01.reg_sts,
+5>   ka09.reg_sts
+6> from kddia09 ka09,
+7>      kddia01 ka01
+8> where ka09.reg_sts='20'
+9>   and ka01.kddi_regist_no = ka09.kddi_regist_no
+10>   and ka01.reg_sts='50'
+11> go
+ kddi_regist_no add_ymd                         reg_sts reg_sts 
+ -------------- ------------------------------- ------- ------- 
+ K09120001685               May 13 2010  9:56PM 50      20      
+ K10040000629               Apr 14 2010  6:38PM 50      20      
+ K10040001165               Apr 22 2010  1:46PM 50      20      
+ K10040001334               Apr 21 2010  3:40PM 50      20      
+ K10040001389               Apr 27 2010  3:28PM 50      20      
+ K10040001423               Apr 21 2010 10:13PM 50      20      
+ K10040001691               Apr 22 2010  7:08PM 50      20      
+ K10040003109               Apr 27 2010  7:06PM 50      20      
+ K10040004064               Apr 30 2010  3:34PM 50      20      
+ K10050000334               May  7 2010  5:54PM 50      20      
+ K10090000189               Sep  7 2010  7:20PM 50      20      
+ K10080001465               Sep 30 2010  4:14PM 50      20      
+ K10090004069               Sep 30 2010 10:14AM 50      20      
+ K10090004096               Sep 30 2010  3:40PM 50      20      
+ K10100001728               Oct 28 2010  8:12AM 50      20      
+ K10100001737               Oct 28 2010  8:24AM 50      20      
+ K10120003234               Sep 15 2015 11:40AM 50      20      
+ K11059917708               May 26 2011  2:30PM 50      20      
+ K11060003124               Jun 27 2011  4:20PM 50      20      
+ K11060003133               Jun 27 2011  4:25PM 50      20      
+ K11060003259               Jun 27 2011 10:29PM 50      20      
+ K11060003268               Jun 27 2011 11:02PM 50      20      
+ K11060003277               Jun 27 2011 11:07PM 50      20      
+ K11060003286               Jun 27 2011 11:12PM 50      20      
+ K11060000350               Jun  7 2011  7:27PM 50      20      
+ K11060000378               Jun  8 2011 10:41PM 50      20      
+ K11060000476               Jun  9 2011 11:42AM 50      20      
+ K11060000485               Jun  9 2011  7:55PM 50      20      
+ K11060000494               Jun  9 2011  8:29PM 50      20      
+ K11070000331               Jul  3 2011  6:58PM 50      20      
+ K11080000296               Aug  9 2011  4:12PM 50      20      
+ K11080000312               Aug 10 2011  5:17PM 50      20      
+ K11080000321               Aug 10 2011  5:31PM 50      20      
+ K11080000330               Aug 10 2011  5:45PM 50      20      
+ K11080000349               Aug 10 2011  5:48PM 50      20      
+ K11080000358               Aug 10 2011  7:06PM 50      20      
+ K11080000367               Aug 10 2011  7:17PM 50      20      
+ K12100000184               Oct 10 2012  3:09PM 50      20      
+ K12120000011               Dec  5 2012  4:07PM 50      20      
+ K14010000389               Jan 31 2014  2:04PM 50      20      
+ K14090000087               Sep 26 2014  8:32PM 50      20      
+ K13050000028               May 10 2013  6:44PM 50      20      
+ K15060002611               Jun 22 2015  2:01AM 50      20      
+
+(43 rows affected)
+1> select reg_sts,kddi_regist_no from kddia09 where kddi_regist_no='K10030000112'
+2> go
+ reg_sts kddi_regist_no 
+ ------- -------------- 
+ 94      K10030000112   
+
+(1 row affected)
+1> begin tran
+2> go
+1> update kddia09 set reg_sts='94' where kddi_regist_no='K09120001685'
+2> go
+(1 row affected)
+1> select reg_sts,kddi_regist_no from kddia09 where kddi_regist_no='K09120001685'
+2> go
+ reg_sts kddi_regist_no 
+ ------- -------------- 
+ 94      K09120001685   
+
+(1 row affected)
+1> select
+2>   ka09.kddi_regist_no,
+3>   ka09.add_ymd,
+4>   ka01.reg_sts,
+5>   ka09.reg_sts
+6> from kddia09 ka09,
+7>      kddia01 ka01
+8> where ka09.reg_sts='20'
+9>   and ka01.kddi_regist_no = ka09.kddi_regist_no
+10>   and ka01.reg_sts='50'
+11> go
+ kddi_regist_no add_ymd                         reg_sts reg_sts 
+ -------------- ------------------------------- ------- ------- 
+ K10040000629               Apr 14 2010  6:38PM 50      20      
+ K10040001165               Apr 22 2010  1:46PM 50      20      
+ K10040001334               Apr 21 2010  3:40PM 50      20      
+ K10040001389               Apr 27 2010  3:28PM 50      20      
+ K10040001423               Apr 21 2010 10:13PM 50      20      
+ K10040001691               Apr 22 2010  7:08PM 50      20      
+ K10040003109               Apr 27 2010  7:06PM 50      20      
+ K10040004064               Apr 30 2010  3:34PM 50      20      
+ K10050000334               May  7 2010  5:54PM 50      20      
+ K10090000189               Sep  7 2010  7:20PM 50      20      
+ K10080001465               Sep 30 2010  4:14PM 50      20      
+ K10090004069               Sep 30 2010 10:14AM 50      20      
+ K10090004096               Sep 30 2010  3:40PM 50      20      
+ K10100001728               Oct 28 2010  8:12AM 50      20      
+ K10100001737               Oct 28 2010  8:24AM 50      20      
+ K10120003234               Sep 15 2015 11:40AM 50      20      
+ K11059917708               May 26 2011  2:30PM 50      20      
+ K11060003124               Jun 27 2011  4:20PM 50      20      
+ K11060003133               Jun 27 2011  4:25PM 50      20      
+ K11060003259               Jun 27 2011 10:29PM 50      20      
+ K11060003268               Jun 27 2011 11:02PM 50      20      
+ K11060003277               Jun 27 2011 11:07PM 50      20      
+ K11060003286               Jun 27 2011 11:12PM 50      20      
+ K11060000350               Jun  7 2011  7:27PM 50      20      
+ K11060000378               Jun  8 2011 10:41PM 50      20      
+ K11060000476               Jun  9 2011 11:42AM 50      20      
+ K11060000485               Jun  9 2011  7:55PM 50      20      
+ K11060000494               Jun  9 2011  8:29PM 50      20      
+ K11070000331               Jul  3 2011  6:58PM 50      20      
+ K11080000296               Aug  9 2011  4:12PM 50      20      
+ K11080000312               Aug 10 2011  5:17PM 50      20      
+ K11080000321               Aug 10 2011  5:31PM 50      20      
+ K11080000330               Aug 10 2011  5:45PM 50      20      
+ K11080000349               Aug 10 2011  5:48PM 50      20      
+ K11080000358               Aug 10 2011  7:06PM 50      20      
+ K11080000367               Aug 10 2011  7:17PM 50      20      
+ K12100000184               Oct 10 2012  3:09PM 50      20      
+ K12120000011               Dec  5 2012  4:07PM 50      20      
+ K14010000389               Jan 31 2014  2:04PM 50      20      
+ K14090000087               Sep 26 2014  8:32PM 50      20      
+ K13050000028               May 10 2013  6:44PM 50      20      
+ K15060002611               Jun 22 2015  2:01AM 50      20      
+
+(42 rows affected)
+1> 

@@ -1,0 +1,64 @@
+1> select
+2>   ka09.kddi_regist_no,
+3>   ka09.add_ymd,
+4>   ka01.reg_sts,
+5>   ka09.reg_sts
+6> from kddia09 ka09,
+7>      kddia01 ka01
+8> where ka09.reg_sts='20'
+9>   and ka01.kddi_regist_no = ka09.kddi_regist_no
+10>   and ka01.reg_sts='50'
+11> go
+ kddi_regist_no add_ymd                         reg_sts reg_sts 
+ -------------- ------------------------------- ------- ------- 
+ K16060000211               May 17 2017  9:08PM 50      20      
+ K14010004544               Jan 30 2014  5:07PM 50      20      
+ K15020003561               Feb  6 2015  3:44PM 50      20      
+ K15020003589               Feb  6 2015  4:21PM 50      20     
+ K18020022645               Feb 20 2018 10:49AM 50      20      
+     :
+     : 
+
+
+1> select reg_sts,kddi_regist_no from kddia09 where kddi_regist_no='K18020022645'
+2> go
+ reg_sts kddi_regist_no
+ ------- --------------
+ 20      K18020022645
+
+(1 row affected)
+1> begin tran
+2> go
+1> update kddia09 set reg_sts='94' where kddi_regist_no='K18020022645'
+2> go
+(1 row affected)
+1> commit tran
+2> go
+
+まちがったとき
+1> rollback tran
+2> go
+
+
+2> go
+1> select reg_sts,kddi_regist_no from kddia09 where kddi_regist_no='K18020022645'
+2> go
+ reg_sts kddi_regist_no
+ ------- --------------
+ 94      K18020022645
+
+(1 row affected)
+
+
+
+
+最後に、画面でテストしてうまくいかなかった場合はreg_stsを元にもどしておいてください
+
+
+1> begin tran
+2> go
+1> update kddia09 set reg_sts='20' where kddi_regist_no='K18020022645'
+2> go
+(1 row affected)
+1> commit tran
+2> go

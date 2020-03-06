@@ -1,0 +1,58 @@
+-rw-r--r--. 1 wwwadmin so-net 441 Mar  5 05:54 0554450016418
+-sh-4.2$ cat 0554450016418
+20200305 055445 [0016418] ppvlogsrchu1.pl: base_id:[e866ac5ba671e962be69c0e7c068d915]
+20200305 055445 [0016418] ppvlogsrchu1.pl: usr_id:[x6x7u7t2v3ch4mme@nmt]
+20200305 055445 [0016418] ppvlogsrchu1.pl: auth_id:[x6x7u7t2v3ch4mme@nmt]
+20200305 055445 [0016418] ppvlogsrchu1.pl: visp_cd:[00]
+20200305 055445 [0016418] ppvlogsrchu1.pl: ストアドステータスエラー[sp_ppvauthuser_u1][sql = exec sp_ppvauthuser_u1 'x6x7u7t2v3ch4mme@nmt']
+
+
+ppvlogsrchu1.pl
+
+#---------------------------------------
+# コンテンツ件数課金DB化対応用ユーザ認証
+#---------------------------------------
+$sql    = sprintf 'exec sp_ppvauthuser_u1 \'%s\'', $auth_id;
+@data   = ExecSQL($sql);
+
+if(@data == 0){
+        log_printf("ストアドステータスエラー[sp_ppvauthuser_u1][sql = %s]\n",$sql);
+        SystemError('10002');
+}elsif($data[0] eq '01'){
+        log_printf("コンテンツ件数課金DB化対応用ユーザ認証エラー[sp_ppvauthuser_u1]\n");
+        SystemError('20001');
+}elsif($data[0] eq '02'){
+        log_printf("コンテンツ件数課金DB化対応用顧客状態エラー[sp_ppvauthuser_u1]\n");
+        SystemError('20002');
+}elsif($data[0] eq '03'){
+        log_printf("コンテンツ件数課金DB化対応用ユーザ状態エラー[sp_ppvauthuser_u1]\n");
+        SystemError('20003');
+}elsif($data[0] ne '00'){
+        log_printf("ストアド実行エラー[%s][sp_ppvauthuser_u1]\n", $data[0]);
+        SystemError('10003');
+}
+
+@time   = localtime();
+
+
+use lib '/so-net/env/';
+use gyom_access;
+
+@ISA    = ('FJBase');
+{
+    my %_HOST   = (
+               MASTER_USER   => ['MASTER',   $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               MASTER_OLSU   => ['MASTER',   $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               MASTER_GYOM   => ['MASTER',   $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               POINT_USER    => ['POINT',    $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               POINT_OLSU    => ['POINT',    $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               POINT_GYOM    => ['POINT',    $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE1_USER  => ['SYBASE1',  $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE1_GYOM  => ['SYBASE1',  $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE11_USER => ['SYBASE11', $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE11_GYOM => ['SYBASE11', $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE12_USER => ['SYBASE12', $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               SYBASE12_GYOM => ['SYBASE12', $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               MAYSERV_USER  => ['MAYSERV',  $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               MAYSERV_GYOM  => ['MAYSERV',  $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
+               DSSDB         => ['DSSDB',    $gyom_access::GYMAP_HOST, $gyom_access::GYMAP_PORT],
