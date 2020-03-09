@@ -1,3 +1,6 @@
+1> use tsnet01db
+2> go
+
 select
 2>   ka09.kddi_regist_no,
 3>   ka09.add_ymd,
@@ -114,6 +117,9 @@ Invalid column name 'auth_id'.
 Msg 156, Level 15, State 2:
 Server 'MASTER1', Line 1:
 Incorrect syntax near the keyword 'from'.
+
+
+
 1> select
 2>   ka09.kddi_regist_no,
 3>   ka09.add_ymd,
