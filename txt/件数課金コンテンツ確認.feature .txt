@@ -1,0 +1,32 @@
+javascript error: Cannot read property 'clientWidth' of null
+  (Session info: headless chrome=77.0.3865.120) (Selenium::WebDriver::Error::JavascriptError)
+./features/_common/step_definitions/web/generic_web_steps.rb:55:in `block (2 levels) in <top (required)>'
+./features/_common/step_definitions/web/generic_web_steps.rb:55:in `"最後に開いたタブを選択する"'
+./features/support/helpers/debug_helper.rb:50:in `block in <top (required)>'
+features/core-secap/PayPerView/件数課金コンテンツ確認.feature:28:in `When 最後に開いたタブを選択する'
+
+
+
+-sh-4.2$ hostname
+core-secap7-01t.gyom.plus.so-net.ne.jp
+-sh-4.2$ ls
+0315510029109  1725220003837
+-sh-4.2$ pwd
+/so-net/log/cgi/PayPerView/user/20200309
+-sh-4.2$ cat 1725220003837
+20200309 172522 [0003837] ppvlogsrchu1.pl: base_id:[c010a4a1bf7fee09129b7f750fce4436]
+20200309 172522 [0003837] ppvlogsrchu1.pl: usr_id:[d93vtaec6y9w44jf@nmt]
+20200309 172522 [0003837] ppvlogsrchu1.pl: auth_id:[d93vtaec6y9w44jf@nmt]
+20200309 172522 [0003837] ppvlogsrchu1.pl: visp_cd:[00]
+20200309 172522 [0003837] ppvlogsrchu1.pl: Log_ym []
+20200309 172522 [0003837] ppvlogsrchu1.pl: Log_ym [202002]
+20200309 172522 [0003837] ppvlogsrchu1.pl: --- array_month = [202003]
+20200309 172522 [0003837] ppvlogsrchu1.pl: --- array_month = 202002
+20200309 172522 [0003837] ppvlogsrchu1.pl: --- array_month = 202001
+20200309 172522 [0003837] ppvlogsrchu1.pl: --- array_month = 201912
+20200309 172522 [0003837] ppvlogsrchu1.pl: --- array_month = 201911
+20200309 172522 [0003837] ppvlogsrchu1.pl: --- array_month = 201910
+20200309 172522 [0003837] ppvlogsrchu1.pl: --- maxrow = 2
+20200309 172522 [0003837] ppvlogsrchu1.pl: ---- Normal End ----
+-sh-4.2$
+
